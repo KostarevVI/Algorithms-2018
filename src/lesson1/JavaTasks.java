@@ -193,7 +193,7 @@ public class JavaTasks {
                 numOfFreq.add(numInColl);
             }
         }
-        Integer[] numOfFreqArray = numOfFreq.toArray(new Integer[numOfFreq.size()]);
+        Integer[] numOfFreqArray = numOfFreq.toArray(new Integer[0]);
         Sorts.quickSort(numOfFreqArray);
 
         try (FileWriter writer = new FileWriter(outputName)) {
@@ -222,7 +222,7 @@ public class JavaTasks {
      * second = [null null null null null 1 3 9 13 18 23]
      * <p>
      * Результат: second = [1 3 4 9 9 13 15 20 23 28]
-     **/
+     */
     static <T extends Comparable<T>> void mergeArrays(T[] first, T[] second) {
         throw new NotImplementedError();
     }

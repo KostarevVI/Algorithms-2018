@@ -196,7 +196,7 @@ public class JavaAlgorithms {
      * Все слова и буквы -- русские или английские, прописные.
      * В файле буквы разделены пробелами, строки -- переносами строк.
      * Остальные символы ни в файле, ни в словах не допускаются.
-     **/
+     */
     static public Set<String> baldaSearcher(String inputName, Set<String> words) {
 
         Set<String> existWords = new HashSet<>();
