@@ -1,11 +1,9 @@
 package lesson2;
 
-import com.sun.xml.internal.fastinfoset.util.CharArray;
 import kotlin.NotImplementedError;
 import kotlin.Pair;
 
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 @SuppressWarnings("unused")
