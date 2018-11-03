@@ -100,20 +100,22 @@ public class JavaTasks {
      * 121.3
      */
     static public void sortTemperatures(String inputName, String outputName) {
-        List<String> tempList = new ArrayList<>();
+        List<Double> tempList = new ArrayList<>();
         try (FileReader reader = new FileReader(inputName)) {
             Scanner scan = new Scanner(reader);
             while (scan.hasNextLine()) {
-                tempList.add(scan.nextLine());
+                Double temp = Double.parseDouble(scan.nextLine());
+                if (temp >= -273.0 && temp <= 500.0) {
+                    tempList.add(temp);
+                } else {
+                    throw new IllegalArgumentException("Число не в диапазоне -273<n<500");
+                }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new IllegalArgumentException("Ошибка чтения");
         }
 
-        Double[] tempArray = new Double[tempList.size()];
-        for (int i = 0; i < tempList.size(); i++) {
-            tempArray[i] = Double.parseDouble(tempList.get(i));
-        }
+        Double[] tempArray = tempList.toArray(new Double[0]);
 
         Sorts.quickSort(tempArray, 0, tempArray.length - 1);
 
@@ -125,6 +127,9 @@ public class JavaTasks {
             throw new IllegalArgumentException("Ошибка записи");
         }
     }
+    //Трудоемкость - O(log(n)*n)
+    //Ресурсоёмкость - O(n)
+    //где n - кол-во строк в файле
 
     /**
      * Сортировка последовательности
@@ -186,28 +191,28 @@ public class JavaTasks {
             throw new IllegalArgumentException("Ошибка чтения");
         }
 
-        //поиск всех самых часто встречающихся номеров
-        List<Integer> numOfFreq = new ArrayList<>();
+        int minNum = maxNum;
         for (Integer numInColl : mostFreq.keySet()) {
-            if (mostFreq.get(numInColl).equals(maxFreq)) {
-                numOfFreq.add(numInColl);
+            if (mostFreq.get(numInColl).equals(maxFreq) && numInColl <= minNum) {
+                minNum = numInColl;
             }
         }
-        Integer[] numOfFreqArray = numOfFreq.toArray(new Integer[0]);
-        Sorts.quickSort(numOfFreqArray);
 
         try (FileWriter writer = new FileWriter(outputName)) {
             for (Integer num : numList) {
-                if (!num.equals(numOfFreqArray[0]))
+                if (!num.equals(minNum))
                     writer.write(num.toString() + "\n");
             }
-            for (int i = 0; i < mostFreq.get(numOfFreqArray[0]); i++) {
-                writer.write(numOfFreqArray[0].toString() + "\n");
+            for (int i = 0; i < mostFreq.get(minNum); i++) {
+                writer.write(minNum + "\n");
             }
         } catch (Exception e) {
             throw new IllegalArgumentException("Ошибка записи");
         }
     }
+    //Трудоёмкость - O(n)
+    //Ресурсоёмкость - O(n)
+    //где n - кол-во входных символов
 
     /**
      * Соединить два отсортированных массива в один
