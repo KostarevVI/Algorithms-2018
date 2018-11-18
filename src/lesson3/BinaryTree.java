@@ -251,6 +251,10 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
         minSet = minRootCount(minSet, root, toElement);
         return minSet;
     }
+    //Трудоемкость - O(h)
+    //h - высота бинарного дерева
+    //Ресурсоёмкость - O(H)
+    //количество элементов больше или равных заданного
 
     private SortedSet<T> minRootCount(SortedSet<T> minSet, Node<T> root, T toElement){
         if (root == null) {
@@ -277,6 +281,10 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
         maxSet = maxRootCount(maxSet, root, fromElement);
         return maxSet;
     }
+    //Трудоемкость - O(h)
+    //h - высота бинарного дерева
+    //Ресурсоёмкость - O(H)
+    //количество элементов больше или равных заданного
 
     private SortedSet<T> maxRootCount(SortedSet<T> maxSet, Node<T> root, T fromElement){
         if (root == null) {
