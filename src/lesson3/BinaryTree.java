@@ -248,11 +248,11 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     @Override
     public SortedSet<T> headSet(T toElement) {
         SortedSet<T> minSet = new TreeSet<>();
-        minSet = rootCounter(minSet, root, toElement);
+        minSet = minRootCount(minSet, root, toElement);
         return minSet;
     }
 
-    private SortedSet<T> rootCounter(SortedSet<T> minSet, Node<T> root, T toElement){
+    private SortedSet<T> minRootCount(SortedSet<T> minSet, Node<T> root, T toElement){
         if (root == null) {
             return (minSet);
         }
@@ -260,8 +260,8 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
             if(root.value.compareTo(toElement)<0) {
                 minSet.add(root.value);
             }
-            rootCounter(minSet, root.left, toElement);
-            rootCounter(minSet, root.right, toElement);
+            minRootCount(minSet, root.left, toElement);
+            minRootCount(minSet, root.right, toElement);
             return (minSet);
         }
     }
@@ -273,8 +273,23 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     @NotNull
     @Override
     public SortedSet<T> tailSet(T fromElement) {
-        // TODO
-        throw new NotImplementedError();
+        SortedSet<T> maxSet = new TreeSet<>();
+        maxSet = maxRootCount(maxSet, root, fromElement);
+        return maxSet;
+    }
+
+    private SortedSet<T> maxRootCount(SortedSet<T> maxSet, Node<T> root, T fromElement){
+        if (root == null) {
+            return (maxSet);
+        }
+        else {
+            if(root.value.compareTo(fromElement)>0 || root.value.compareTo(fromElement)==0) {
+                maxSet.add(root.value);
+            }
+            maxRootCount(maxSet, root.left, fromElement);
+            maxRootCount(maxSet, root.right, fromElement);
+            return (maxSet);
+        }
     }
 
     @Override
