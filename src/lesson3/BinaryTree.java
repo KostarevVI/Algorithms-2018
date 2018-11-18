@@ -247,8 +247,23 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     @NotNull
     @Override
     public SortedSet<T> headSet(T toElement) {
-        // TODO
-        throw new NotImplementedError();
+        SortedSet<T> minSet = new TreeSet<>();
+        minSet = rootCounter(minSet, root, toElement);
+        return minSet;
+    }
+
+    private SortedSet<T> rootCounter(SortedSet<T> minSet, Node<T> root, T toElement){
+        if (root == null) {
+            return (minSet);
+        }
+        else {
+            if(root.value.compareTo(toElement)<0) {
+                minSet.add(root.value);
+            }
+            rootCounter(minSet, root.left, toElement);
+            rootCounter(minSet, root.right, toElement);
+            return (minSet);
+        }
     }
 
     /**
