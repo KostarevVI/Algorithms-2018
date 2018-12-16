@@ -19,8 +19,8 @@ public class JavaGraphTasks {
      * <p>
      * Пример:
      * <p>
-     * G -- H
-     * |    |
+     *      G -- H
+     *      |    |
      * A -- B -- C -- D
      * |    |    |    |
      * E    F -- I    |
@@ -33,21 +33,41 @@ public class JavaGraphTasks {
      * связного графа ровно по одному разу
      */
     public static List<Graph.Edge> findEulerLoop(Graph graph) {
-        throw new NotImplementedError();
-    }
-//        for (Graph.Vertex vertex : graph.getVertices()) {
-//
-//        }
-//    }
-//
-//    void cycle_search(u) {
-//        for (берем любое непройденное ребро (u,v)) {
-//            (u,v) – отметить и удалить из списка;
-//            cycle_search(v);
-//        }
-//        вывести_вершину (u);
-//    }
+        List<Graph.Edge> eilerPath = new ArrayList<>();
+        Set<Graph.Edge> visited = new HashSet<>();
+        ArrayDeque<Graph.Vertex> verticesDeque = new ArrayDeque<>();
 
+        for (Graph.Vertex vertex : graph.getVertices()) {
+            int neighbors = graph.getNeighbors(vertex).size();
+            if (neighbors % 2 == 1 || neighbors == 0) {
+                return eilerPath;
+            }
+        }
+
+        verticesDeque.addFirst(graph.getVertices().iterator().next());
+        while (graph.getEdges().size() != eilerPath.size()) {
+            Graph.Edge curEdge = null;
+            Graph.Vertex vertex = verticesDeque.getFirst();
+            for (Graph.Edge edge : graph.getConnections(vertex).values()) {
+                if (!visited.contains(edge)) {
+                    curEdge = edge;
+                }
+            }
+            if (curEdge != null) {
+                if (vertex == curEdge.getBegin()) {
+                    verticesDeque.addFirst(curEdge.getEnd());
+                } else {
+                    verticesDeque.addFirst(curEdge.getBegin());
+                }
+                visited.add(curEdge);
+                eilerPath.add(curEdge);
+            }
+        }
+        return eilerPath;
+    }
+    //Трудоемкость - O(n)
+    //Ресурсоёмкость - O(n)
+    //где n - кол-во рёбер графа
 
     /**
      * Минимальное остовное дерево.
@@ -59,8 +79,8 @@ public class JavaGraphTasks {
      * <p>
      * Пример:
      * <p>
-     * G -- H
-     * |    |
+     *      G -- H
+     *      |    |
      * A -- B -- C -- D
      * |    |    |    |
      * E    F -- I    |
@@ -69,8 +89,8 @@ public class JavaGraphTasks {
      * <p>
      * Ответ:
      * <p>
-     * G    H
-     * |    |
+     *      G    H
+     *      |    |
      * A -- B -- C -- D
      * |    |    |
      * E    F    I
@@ -106,52 +126,7 @@ public class JavaGraphTasks {
      * Эта задача может быть зачтена за пятый и шестой урок одновременно
      */
     public static Set<Graph.Vertex> largestIndependentVertexSet(Graph graph) {
-        Map<Set<Graph.Vertex>, Boolean> setsWithIndependence = new HashMap<>();
-        for (Graph.Vertex vertex : graph.getVertices()) {
-            setsWithIndependence.put(new HashSet<>(Collections.singleton(vertex)), true);
-        }
-        List<Set<Graph.Vertex>> previous = new ArrayList<>();
-        for (Graph.Vertex vertex : graph.getVertices()) {
-            previous.add(new HashSet<>(Collections.singleton(vertex)));
-        }
-        for (int i = 0; i < graph.getVertices().size() - 1; i++) {
-            List<Set<Graph.Vertex>> newPrevious = new ArrayList<>();
-            for (Set<Graph.Vertex> set : previous) {
-                if (setsWithIndependence.get(set)) {
-                    for (Graph.Vertex addingVertex : graph.getVertices()) {
-                        Set<Graph.Vertex> newSet = new HashSet<>(set);
-                        newSet.add(addingVertex);
-                        if (!previous.contains(newSet) && !newPrevious.contains(newSet)) {
-                            newPrevious.add(newSet);
-                            setsWithIndependence.put(newSet, setsWithIndependence.get(set) && isIndependent(graph, set, addingVertex));
-                        }
-                    }
-                }
-            }
-            previous = newPrevious;
-        }
-        int max = 0;
-        Set<Graph.Vertex> maxSet = new HashSet<>();
-        for (Map.Entry<Set<Graph.Vertex>, Boolean> entry : setsWithIndependence.entrySet()) {
-            if (entry.getValue() && entry.getKey().size() > max) {
-                max = entry.getKey().size();
-                maxSet = entry.getKey();
-            }
-        }
-        return maxSet;
-    }
-
-    //Трудоемкость - O(2^V*E), так как наиболее трудоемкой частью является перебор всех 2^V подмножеств множества вершин,
-    //внутри которого вызывается функция проверки независимости элемента относительно множества трудоемкостью O(E),
-    //Ресурсоемкость - O(2^V), потому что создатеся ассоциативный массив, размером в количество всех подмножеств
-
-    private static boolean isIndependent(Graph graph, Set<Graph.Vertex> set, Graph.Vertex vertex) {
-        for (Graph.Edge edge : graph.getEdges()) {
-            if (edge.getBegin() == vertex && set.contains(edge.getEnd()) || edge.getEnd() == vertex && set.contains(edge.getBegin())) {
-                return false;
-            }
-        }
-        return true;
+        throw new NotImplementedError();
     }
 
     /**
@@ -183,12 +158,12 @@ public class JavaGraphTasks {
 
         List<Graph.Vertex> maxPath = new ArrayList<>(0);
 
-        for(List<Graph.Vertex> path: maxPathSet){
-            if(path.size()>maxPath.size()){
+        for (List<Graph.Vertex> path : maxPathSet) {
+            if (path.size() > maxPath.size()) {
                 maxPath = path;
             }
         }
-        return new Path(maxPath, maxPath.size()-1);
+        return new Path(maxPath, maxPath.size() - 1);
     }
 
     private static void DFS(Graph.Vertex current, ArrayDeque<Graph.Vertex> visited,
@@ -202,7 +177,7 @@ public class JavaGraphTasks {
                     pathEnd = false;
                 }
             }
-            if(pathEnd){
+            if (pathEnd) {
                 maxPathSet.add(new ArrayList<>(visited));
             }
         } else {
@@ -210,4 +185,8 @@ public class JavaGraphTasks {
         }
         visited.remove();
     }
+    //Трудоемкость - O(n*m)
+    //где n - кол-во вершин графа графа, а m - кол-во соседей у каждой из вершин
+    //Ресурсоёмкость - O(p)
+    //где p - кол-во возможных путей
 }
