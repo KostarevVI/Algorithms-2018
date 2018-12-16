@@ -65,6 +65,20 @@ abstract class AbstractGraphTests {
         }.build()
         val loop2 = graph2.findEulerLoop()
         loop2.assert(true, graph2)
+        val graph3 = GraphBuilder().apply {
+            val a = addVertex("A")
+            val b = addVertex("B")
+            val c = addVertex("C")
+            val d = addVertex("D")
+            addConnection(a, b)
+            addConnection(b, c)
+            addConnection(c, d)
+            addConnection(d, a)
+            addConnection(b, d)
+            addConnection(d, b)
+        }.build()
+        val loop3 = graph.findEulerLoop()
+        loop3.assert(true, graph)
     }
 
     fun minimumSpanningTree(minimumSpanningTree: Graph.() -> Graph) {
