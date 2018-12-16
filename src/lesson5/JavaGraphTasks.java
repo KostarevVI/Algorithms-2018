@@ -31,7 +31,7 @@ public class JavaGraphTasks {
      * <p>
      * Справка: Эйлеров цикл -- это цикл, проходящий через все рёбра
      * связного графа ровно по одному разу
-     */
+     **/
     public static List<Graph.Edge> findEulerLoop(Graph graph) {
         List<Graph.Edge> eilerPath = new ArrayList<>();
         Set<Graph.Edge> visited = new HashSet<>();
